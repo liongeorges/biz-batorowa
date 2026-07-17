@@ -1,0 +1,968 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ビジネス・バトロワ ジョブ診断</title>
+  <meta name="description" content="ビジネスバトロワの島に降りた100人。生き残るのは、才能がある奴じゃない。&quot;自分の強み&quot;を知っている奴だ！5問であなたのジョブを確定する。">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ビジネス・バトロワ ジョブ診断">
+  <meta property="og:description" content="ビジネスバトロワの島に降りた100人。生き残るのは、才能がある奴じゃない。&quot;自分の強み&quot;を知っている奴だ！5問であなたのジョブを確定する。">
+  <meta property="og:image" content="/assets/ogp/quiz.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="theme.css">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      color-scheme: dark;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      min-height: 100svh;
+      margin: 0;
+      color: var(--fg);
+      background:
+        radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--job-accent), transparent 84%), transparent 36rem),
+        var(--bg);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.7;
+      transition: background-color 240ms ease;
+    }
+
+    button,
+    a,
+    input {
+      font: inherit;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      color: inherit;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    .app-shell {
+      width: min(100% - 32px, 720px);
+      min-height: 100vh;
+      min-height: 100svh;
+      margin-inline: auto;
+      padding: 24px 0 40px;
+      display: grid;
+      align-items: center;
+    }
+
+    .screen {
+      width: 100%;
+      animation: screen-in 260ms ease-out both;
+    }
+
+    .panel {
+      border: 1px solid color-mix(in srgb, var(--job-accent), transparent 72%);
+      border-radius: 24px;
+      background: color-mix(in srgb, var(--surface), transparent 4%);
+      box-shadow: 0 18px 60px color-mix(in srgb, var(--bg), transparent 20%);
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--job-accent);
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .start-card {
+      padding: 0 clamp(22px, 7vw, 52px) clamp(28px, 8vw, 56px);
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .start-hero {
+      margin-left: calc(-1 * clamp(22px, 7vw, 52px));
+      margin-right: calc(-1 * clamp(22px, 7vw, 52px));
+      margin-bottom: clamp(20px, 5vw, 32px);
+      border-radius: 24px 24px 0 0;
+      aspect-ratio: 16 / 9;
+      background-image:
+        linear-gradient(to bottom, transparent 68%, color-mix(in srgb, var(--surface), transparent 4%) 100%),
+        url('assets/hero.jpg');
+      background-size: cover;
+      background-position: center 26%;
+    }
+
+    .start-card h1 {
+      margin: 0;
+      font-size: clamp(2rem, 9vw, 4rem);
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+    }
+
+    .start-copy {
+      max-width: 35rem;
+      margin: 24px auto 0;
+      color: color-mix(in srgb, var(--fg), var(--muted) 22%);
+      font-weight: 650;
+    }
+
+    .brand-logo {
+      margin: 4px 0 0;
+      font-size: clamp(3.2rem, 15vw, 5.8rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: 0.04em;
+      color: var(--fg);
+      text-shadow: 0 0 28px color-mix(in srgb, var(--fg), transparent 62%);
+    }
+
+    .brand-full {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: clamp(0.68rem, 2.6vw, 0.86rem);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .brand-jp {
+      margin: 6px 0 0;
+      color: color-mix(in srgb, var(--fg), var(--muted) 30%);
+      font-size: clamp(0.95rem, 3.6vw, 1.15rem);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .start-benefit {
+      max-width: 30rem;
+      margin: 20px auto 0;
+      color: var(--muted);
+      font-size: clamp(0.86rem, 3vw, 0.95rem);
+      line-height: 1.8;
+      text-align: left;
+    }
+
+    .primary-button {
+      width: 100%;
+      min-height: 60px;
+      margin-top: 30px;
+      padding: 15px 24px;
+      border: 0;
+      border-radius: 14px;
+      color: var(--bg);
+      background: var(--job-accent);
+      font-weight: 850;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 30px color-mix(in srgb, var(--job-accent), transparent 72%);
+      transition: transform 160ms ease, box-shadow 160ms ease;
+    }
+
+    .primary-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 34px color-mix(in srgb, var(--job-accent), transparent 64%);
+    }
+
+    .primary-button:active {
+      transform: translateY(0);
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--job-accent);
+      outline-offset: 4px;
+    }
+
+    .quiz-card {
+      padding: clamp(22px, 6vw, 40px);
+    }
+
+    .progress-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .progress-label {
+      flex: 0 0 auto;
+      margin: 0;
+      color: var(--job-accent);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
+
+    .progress-track {
+      height: 7px;
+      flex: 1;
+      overflow: hidden;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--muted), transparent 78%);
+    }
+
+    .progress-bar {
+      height: 100%;
+      border-radius: inherit;
+      background: var(--job-accent);
+      transition: width 220ms ease;
+    }
+
+    .question-text {
+      margin: 0;
+      font-size: clamp(1.35rem, 5.8vw, 2rem);
+      line-height: 1.45;
+      letter-spacing: -0.02em;
+    }
+
+    .choices {
+      display: grid;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .choice-button {
+      width: 100%;
+      min-height: 68px;
+      padding: 16px;
+      border: 1px solid color-mix(in srgb, var(--muted), transparent 66%);
+      border-radius: 14px;
+      color: var(--fg);
+      background: color-mix(in srgb, var(--surface), var(--bg) 18%);
+      text-align: left;
+      cursor: pointer;
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 12px;
+      align-items: start;
+      transition: border-color 150ms ease, transform 150ms ease, background-color 150ms ease;
+    }
+
+    .choice-button:hover {
+      border-color: var(--job-accent);
+      background: color-mix(in srgb, var(--job-accent), var(--surface) 92%);
+      transform: translateY(-1px);
+    }
+
+    .choice-label {
+      width: 32px;
+      height: 32px;
+      border: 1px solid color-mix(in srgb, var(--job-accent), transparent 50%);
+      border-radius: 9px;
+      color: var(--job-accent);
+      font-weight: 900;
+      display: grid;
+      place-items: center;
+    }
+
+    .choice-text {
+      padding-top: 2px;
+      line-height: 1.55;
+    }
+
+    .result-card {
+      overflow: hidden;
+    }
+
+    .result-hero {
+      padding: clamp(22px, 6vw, 42px);
+      text-align: center;
+      border-bottom: 1px solid color-mix(in srgb, var(--job-accent), transparent 76%);
+      background: linear-gradient(180deg, color-mix(in srgb, var(--job-accent), transparent 88%), transparent);
+    }
+
+    .job-visual {
+      width: min(46vw, 190px);
+      aspect-ratio: 1;
+      margin: 2px auto 18px;
+      overflow: hidden;
+      border: 2px solid var(--job-accent);
+      border-radius: 22px;
+      background: var(--bg);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 12px 34px color-mix(in srgb, var(--job-accent), transparent 76%);
+    }
+
+    .job-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      grid-area: 1 / 1;
+    }
+
+    .job-emoji {
+      grid-area: 1 / 1;
+      font-size: clamp(4rem, 20vw, 7rem);
+    }
+
+    .job-name {
+      margin: 0;
+      color: var(--job-accent);
+      font-size: clamp(1.8rem, 8vw, 3.2rem);
+      line-height: 1.16;
+      letter-spacing: -0.04em;
+    }
+
+    .job-english {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 750;
+      letter-spacing: 0.1em;
+    }
+
+    .job-catch {
+      max-width: 34rem;
+      margin: 20px auto 0;
+      font-size: clamp(1rem, 4.6vw, 1.3rem);
+      font-weight: 800;
+      line-height: 1.55;
+    }
+
+    .result-body {
+      padding: clamp(22px, 6vw, 42px);
+    }
+
+    .section-title {
+      margin: 0 0 18px;
+      font-size: 1.12rem;
+    }
+
+    .meter-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .meter-row {
+      display: grid;
+      grid-template-columns: 5.2em 1fr 1.5em;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .meter-label,
+    .meter-value {
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+
+    .meter-value {
+      color: var(--job-accent);
+      text-align: right;
+    }
+
+    .meter-track {
+      height: 12px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--muted), transparent 82%);
+    }
+
+    .meter-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: var(--job-accent);
+      transform-origin: left;
+      animation: meter-grow 520ms ease-out both;
+    }
+
+    .result-copy {
+      margin: 26px 0 0;
+      padding-top: 24px;
+      border-top: 1px solid color-mix(in srgb, var(--muted), transparent 78%);
+      color: color-mix(in srgb, var(--fg), var(--muted) 18%);
+    }
+
+    .cta-stack {
+      margin-top: 28px;
+    }
+
+    .share-bar {
+      width: 100%;
+      min-height: 48px;
+      margin-top: 12px;
+      border: 1px solid color-mix(in srgb, var(--job-accent), transparent 56%);
+      border-radius: 12px;
+      color: var(--fg);
+      background: transparent;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .text-action {
+      padding: 0;
+      border: 0;
+      color: var(--muted);
+      background: none;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      cursor: pointer;
+    }
+
+    .line-link {
+      display: block;
+      width: 100%;
+      margin: 18px 0 0;
+      color: var(--job-accent);
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .retry-link {
+      display: block;
+      margin: 18px auto 0;
+      font-size: 0.84rem;
+    }
+
+    .pc-line-help {
+      display: none;
+      margin-top: 20px;
+      padding: 18px;
+      border: 1px solid color-mix(in srgb, var(--muted), transparent 74%);
+      border-radius: 14px;
+      text-align: center;
+    }
+
+    .pc-line-help img {
+      width: 140px;
+      height: 140px;
+      object-fit: contain;
+      margin-top: 10px;
+      background: var(--fg);
+    }
+
+    .pc-line-help p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .pc-job-name {
+      color: var(--job-accent);
+      font-size: 1.15rem;
+      font-weight: 900;
+    }
+
+    .fallback-dialog {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      padding: 20px;
+      background: color-mix(in srgb, var(--bg), transparent 8%);
+      display: grid;
+      place-items: center;
+    }
+
+    .fallback-card {
+      width: min(100%, 440px);
+      padding: 24px;
+    }
+
+    .fallback-card h2 {
+      margin: 0;
+      font-size: 1.3rem;
+    }
+
+    .fallback-card p {
+      color: var(--muted);
+    }
+
+    .fallback-input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid var(--job-accent);
+      border-radius: 10px;
+      color: var(--fg);
+      background: var(--bg);
+      font-weight: 850;
+      text-align: center;
+    }
+
+    .fallback-actions {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .fallback-actions .primary-button {
+      margin-top: 0;
+    }
+
+    .fallback-close {
+      margin-inline: auto;
+    }
+
+    .pulse {
+      animation: pulse 760ms ease-out 2;
+    }
+
+    @media (max-width: 479px) {
+      .result-hero {
+        padding: 18px 22px;
+      }
+
+      .job-visual {
+        width: min(34vw, 150px);
+        margin-bottom: 10px;
+        border-radius: 16px;
+      }
+
+      .job-english {
+        margin-top: 4px;
+      }
+
+      .job-catch {
+        margin-top: 12px;
+      }
+
+      .result-body {
+        padding: 18px 22px 24px;
+      }
+
+      .section-title {
+        margin-bottom: 12px;
+      }
+
+      .meter-list {
+        gap: 8px;
+      }
+
+      .result-copy {
+        margin-top: 16px;
+        padding-top: 14px;
+        line-height: 1.55;
+      }
+
+      .cta-stack {
+        margin-top: 18px;
+      }
+    }
+
+    @media (min-width: 720px) {
+      .app-shell {
+        padding-block: 48px;
+      }
+
+      .pc-line-help {
+        display: block;
+      }
+
+      .choices {
+        gap: 14px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    @keyframes screen-in {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes meter-grow {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+
+    @keyframes pulse {
+      50% {
+        transform: scale(1.025);
+        box-shadow: 0 0 0 8px color-mix(in srgb, var(--job-accent), transparent 78%);
+      }
+    }
+
+    /* ===== ルーレット確定演出 ===== */
+    .roulette-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+    }
+
+    .roulette-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      text-align: center;
+    }
+
+    .roulette-eyebrow {
+      font-size: 0.8rem;
+      letter-spacing: 0.28em;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .roulette-slot {
+      font-size: clamp(72px, 22vw, 128px);
+      line-height: 1;
+      filter: drop-shadow(0 0 24px color-mix(in srgb, var(--job-accent), transparent 55%));
+      transition: transform 120ms ease;
+      position: relative;
+    }
+
+    /* 確定直前のタメ：一瞬グッと縮んでから弾ける */
+    .roulette-slot.is-holding {
+      transform: scale(0.82);
+      transition: transform 240ms cubic-bezier(0.5, 0, 0.75, 0);
+    }
+
+    .roulette-slot.is-settling {
+      animation: slot-pop 520ms cubic-bezier(0.2, 1.5, 0.35, 1) both;
+    }
+
+    /* 確定の瞬間に色リングが弾ける（正円） */
+    .roulette-slot.is-settling::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 1em;
+      height: 1em;
+      margin: -0.5em 0 0 -0.5em;
+      border-radius: 50%;
+      border: 3px solid var(--job-accent);
+      opacity: 0;
+      animation: ring-burst 620ms ease-out both;
+    }
+
+    @keyframes slot-pop {
+      0%   { transform: scale(0.7); }
+      55%  { transform: scale(1.32); }
+      78%  { transform: scale(0.94); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes ring-burst {
+      0%   { transform: scale(0.8); opacity: 0.9; }
+      100% { transform: scale(2.6); opacity: 0; }
+    }
+
+    .roulette-confirm {
+      font-size: 0.9rem;
+      letter-spacing: 0.28em;
+      font-weight: 700;
+      color: var(--job-accent);
+      margin: 0;
+      animation: confirm-in 320ms ease-out both;
+    }
+
+    .roulette-name {
+      font-size: clamp(1.5rem, 6vw, 2.4rem);
+      font-weight: 800;
+      color: var(--fg);
+      margin: 0;
+      animation: confirm-in 420ms ease-out both;
+    }
+
+    @keyframes confirm-in {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .roulette-slot,
+      .roulette-slot.is-holding,
+      .roulette-slot.is-settling,
+      .roulette-slot.is-settling::after,
+      .roulette-confirm,
+      .roulette-name {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app-shell">
+    <section id="startScreen" class="screen" aria-labelledby="startTitle">
+      <div class="panel start-card">
+        <div class="start-hero" role="img" aria-label="ビジネス・バトロワの島に集う8人のジョブ"></div>
+        <h1 id="startTitle" class="brand-logo">BBRJ</h1>
+        <p class="brand-full">Business Battle Royale Job Assessment</p>
+        <p class="brand-jp">ビジネス・バトロワ ジョブ診断</p>
+        <p class="start-copy">ビジネスバトロワの島に降りた100人。<br>生き残るのは、才能がある奴じゃない。<br><strong>"自分の強み"を知っている奴だ！</strong></p>
+        <p class="start-benefit">BBRJでは、5つの質問に答えるだけで、ビジネスにおける今のあなたの「強み」や「最適なスタンス」がわかります。</p>
+        <button id="startButton" class="primary-button" type="button">ビジネスバトロワの島に降下する</button>
+      </div>
+    </section>
+
+    <section id="quizScreen" class="screen" aria-labelledby="questionText" hidden>
+      <div class="panel quiz-card">
+        <div class="progress-row" aria-label="診断の進行状況">
+          <p id="progressLabel" class="progress-label">Q1 / 5</p>
+          <div class="progress-track" aria-hidden="true">
+            <div id="progressBar" class="progress-bar"></div>
+          </div>
+        </div>
+        <h2 id="questionText" class="question-text"></h2>
+        <div id="choices" class="choices"></div>
+      </div>
+    </section>
+
+    <section id="rouletteScreen" class="screen roulette-screen" aria-live="polite" hidden>
+      <div class="roulette-stage">
+        <p class="roulette-eyebrow">JOB SCANNING...</p>
+        <div id="rouletteSlot" class="roulette-slot" aria-hidden="true">🔫</div>
+        <p id="rouletteConfirm" class="roulette-confirm" hidden>JOB CONFIRMED</p>
+        <p id="rouletteName" class="roulette-name" hidden></p>
+      </div>
+    </section>
+  </main>
+
+  <script src="report/report.js"></script>
+  <script>
+    const QUESTIONS = [
+      {
+        id: 'q1',
+        text: '最初の武器（ビジネスアイデア）を選ぶ基準は？',
+        choices: [
+          { label: 'A', meter: 'archer', text: 'すでに市場で売れている「王道の武器」をベースに、勝てる確率が高い領域をモデリングする' },
+          { label: 'B', meter: 'sword',  text: '誰も真似できないレベルまで自分が研ぎ澄ませられる「伝説の職人武器（専門領域）」を育てる' },
+          { label: 'C', meter: 'sniper', text: '徹底的に敵（競合）を分析し、一撃で急所を突く「スナイパーライフル（一発必中）」を仕込む' },
+          { label: 'D', meter: 'gunner', text: 'あれこれ悩むより、手元にある複数の武器を投げてみて、当たったものを主力にする（量重視）' },
+        ],
+      },
+      {
+        id: 'q2',
+        text: '限られた最初のゴールド（時間と資金）をどう配分する？',
+        choices: [
+          { label: 'A', meter: 'golem',  text: '自分が動かなくても自動で攻撃してくれる「ゴーレム（ツール・AI・外注）」の仕組み化に投資する' },
+          { label: 'B', meter: 'sage',   text: '派手な魔法は使わず、毎日の素振りのように「日課のルーティン」を淡々と積み上げる' },
+          { label: 'C', meter: 'archer', text: 'すでに強いパーティー（成功している人、影響力のある組織）のサポーターになり、関係性を築く' },
+          { label: 'D', meter: 'shape',  text: '状況は常に変わるので、ゴールドをガチガチに固定せず、いつでもルート変更できる「余白」を残す' },
+        ],
+      },
+      {
+        id: 'q3',
+        text: '旅の途中で「予想外のモンスター（市場の変化やトラブル）」に遭遇した時、どう動く？',
+        choices: [
+          { label: 'A', meter: 'gunner', text: '「いい経験値（実験データ）が手に入った」と捉え、すぐに次の検証（行動）へ切り替える' },
+          { label: 'B', meter: 'sword',  text: '「このモンスターの生態に、新しいビジネスのヒントはないか？」と、さらに専門的に深掘りする' },
+          { label: 'C', meter: 'sniper', text: '「事前の索敵が甘かった」と反省し、データを集め直して、失敗確率をゼロに近づける作戦を再構築する' },
+          { label: 'D', meter: 'shape',  text: '「風向きが変わった」と割り切り、過去のこだわりを捨てて、今一番波が来ている方向へ姿を変える' },
+        ],
+      },
+      {
+        id: 'q4',
+        text: 'パーティー（チーム）を組む時のあなたの理想のスタンスは？',
+        choices: [
+          { label: 'A', meter: 'bard',   text: '自分が前に出るのではなく、優秀な仲間たちが輝ける環境を作る「名将（プロデューサー）」になりたい' },
+          { label: 'B', meter: 'gunner', text: '圧倒的な戦闘力を自らが見せつけ、背中で語る「勇者（圧倒的行動プレイヤー）」でありたい' },
+          { label: 'C', meter: 'archer', text: 'トップランナーの「頼れる右腕」になるか、勝っているギルドと強力な同盟（補完関係）を結びたい' },
+          { label: 'D', meter: 'golem',  text: '仲間集めや管理にリソースを割くより、AI・ツール・自動システムを"設計する"ことで、ソロプレナーとして一人でも大きな成果を生む仕組みを作りたい' },
+        ],
+      },
+      {
+        id: 'q5',
+        text: 'あなたが最も「脳内報酬（脳の快感・モチベーション）」を得る瞬間は？',
+        choices: [
+          { label: 'A', meter: 'golem',  text: '自分が作った自動トラップ（仕組み）がハマり、自分が寝ていても経験値やゴールド（売上）が入るとき' },
+          { label: 'B', meter: 'sword',  text: '誰にも負けない独自の魔法（スキル）を習得し、顧客から「あなたでなければダメだ」と指名されたとき' },
+          { label: 'C', meter: 'sage',   text: '1年、3年と続けてきた日課の積み上げが、巨大な城（信頼・コンテンツ資産）に育ってきたと実感したとき' },
+          { label: 'D', meter: 'bard',   text: '利害関係を超えて仲間と深い信頼関係で繋がり、みんなで一緒にボスを倒して（目標達成）喜び合えるとき' },
+        ],
+      },
+    ];
+
+    // 検算スクリプト用の参照。加点先はQUESTIONSから生成し、二重定義しない。
+    const MAP = {
+      ...Object.fromEntries(QUESTIONS.map((question) => [
+        question.id,
+        Object.fromEntries(question.choices.map((choice) => [choice.label, choice.meter])),
+      ])),
+    };
+
+    const METERS   = ['gunner','sniper','golem','sword','archer','sage','shape','bard'];
+    const PRIORITY = ['shape','bard','sniper','sage','gunner','golem','sword','archer'];
+
+    function createScores() {
+      return METERS.reduce((acc, k) => (acc[k] = 0, acc), {});
+    }
+
+    function decideJob(scores) {
+      for (const k of METERS) {
+        if (typeof scores[k] !== 'number') {
+          throw new Error(`scores["${k}"] が未初期化です。createScores() を使ってください。`);
+        }
+      }
+      let best = PRIORITY[0];
+      for (const key of PRIORITY) {
+        if (scores[key] > scores[best]) best = key;
+      }
+      return best;
+    }
+
+    const startScreen = document.querySelector('#startScreen');
+    const quizScreen = document.querySelector('#quizScreen');
+    const startButton = document.querySelector('#startButton');
+    const progressLabel = document.querySelector('#progressLabel');
+    const progressBar = document.querySelector('#progressBar');
+    const questionText = document.querySelector('#questionText');
+    const choices = document.querySelector('#choices');
+    const rouletteScreen = document.querySelector('#rouletteScreen');
+    const rouletteSlot = document.querySelector('#rouletteSlot');
+    const rouletteConfirm = document.querySelector('#rouletteConfirm');
+    const rouletteName = document.querySelector('#rouletteName');
+
+    let scores = createScores();
+    let currentQuestion = 0;
+    let currentJob = null;
+    let acceptingAnswer = true;
+
+    function showScreen(screen) {
+      startScreen.hidden = screen !== startScreen;
+      quizScreen.hidden = screen !== quizScreen;
+      rouletteScreen.hidden = screen !== rouletteScreen;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function startQuiz() {
+      scores = createScores();
+      currentQuestion = 0;
+      currentJob = null;
+      acceptingAnswer = true;
+      delete document.body.dataset.job;
+      gtag('event', 'quiz_start');
+      showScreen(quizScreen);
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const question = QUESTIONS[currentQuestion];
+      progressLabel.textContent = `Q${currentQuestion + 1} / ${QUESTIONS.length}`;
+      progressBar.style.width = `${((currentQuestion + 1) / QUESTIONS.length) * 100}%`;
+      questionText.textContent = question.text;
+      choices.replaceChildren();
+
+      for (const choice of question.choices) {
+        const button = document.createElement('button');
+        const label = document.createElement('span');
+        const text = document.createElement('span');
+        button.type = 'button';
+        button.className = 'choice-button';
+        label.className = 'choice-label';
+        text.className = 'choice-text';
+        label.textContent = choice.label;
+        text.textContent = choice.text;
+        button.append(label, text);
+        button.addEventListener('click', () => answerQuestion(choice));
+        choices.append(button);
+      }
+
+      acceptingAnswer = true;
+      choices.querySelector('button')?.focus();
+    }
+
+    function answerQuestion(choice) {
+      if (!acceptingAnswer) return;
+      acceptingAnswer = false;
+      scores[choice.meter] += 1;
+      gtag('event', `quiz_q${currentQuestion + 1}`);
+      currentQuestion += 1;
+
+      if (currentQuestion < QUESTIONS.length) {
+        renderQuestion();
+        return;
+      }
+
+      showResult();
+    }
+
+    // 演出用：全ジョブの絵文字（スロットで回す。順序は演出上の見た目のみ）
+    const ROULETTE_EMOJIS = Object.values(JOBS).map((job) => job.emoji);
+
+    const prefersReducedMotion =
+      window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function goToReport() {
+      window.location.href = `report/${currentJob}.html`;
+    }
+
+    function showResult() {
+      currentJob = decideJob(scores);
+      const job = JOBS[currentJob];
+      document.body.dataset.job = currentJob;
+      gtag('event', 'result_view', { job_type: currentJob });
+
+      // 演出をスキップする設定なら即遷移
+      if (prefersReducedMotion) {
+        goToReport();
+        return;
+      }
+
+      rouletteConfirm.hidden = true;
+      rouletteName.hidden = true;
+      rouletteSlot.classList.remove('is-settling');
+      rouletteSlot.textContent = ROULETTE_EMOJIS[0];
+      showScreen(rouletteScreen);
+      runRoulette(job);
+    }
+
+    function runRoulette(job) {
+      let ticks = 0;
+      const totalTicks = 26;   // 切り替え回数
+      let delay = 55;          // 初期スピード（ms）
+
+      function tick() {
+        rouletteSlot.textContent =
+          ROULETTE_EMOJIS[Math.floor(Math.random() * ROULETTE_EMOJIS.length)];
+        ticks += 1;
+
+        if (ticks >= totalTicks) {
+          // --- 確定直前のタメ（最後にワンテンポ止める）---
+          rouletteSlot.classList.add('is-holding');
+          window.setTimeout(confirmJob, 260);
+          return;
+        }
+
+        // 後半になるほど減速（ただし効きは控えめにして間延びを防ぐ）
+        if (ticks > totalTicks * 0.55) delay += 20;
+        window.setTimeout(tick, delay);
+      }
+
+      function confirmJob() {
+        rouletteSlot.classList.remove('is-holding');
+        rouletteSlot.textContent = job.emoji;
+        rouletteSlot.classList.add('is-settling');
+        rouletteConfirm.hidden = false;
+        rouletteName.hidden = false;
+        rouletteName.textContent = job.name;
+        window.setTimeout(goToReport, 1300); // 余韻を見せてから遷移
+      }
+
+      tick();
+    }
+
+    startButton.addEventListener('click', startQuiz);
+
+    initAnalytics();
+  </script>
+</body>
+</html>

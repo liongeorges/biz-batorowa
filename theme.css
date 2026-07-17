@@ -1,0 +1,17 @@
+:root{
+  --bg:      #0B0F1A;
+  --surface: #141A2B;
+  --fg:      #E8ECF5;
+  --muted:   #8C97AE;
+  --job-accent: #E8ECF5;
+}
+
+/* ジョブのアクセント色は、この8行だけに存在する。値は仮。 */
+[data-job="gunner"]{ --job-accent:#FF6B35; }
+[data-job="sniper"]{ --job-accent:#C2CDDA; }
+[data-job="golem"] { --job-accent:#B8935A; }
+[data-job="sword"] { --job-accent:#5B7CF0; }
+[data-job="archer"]{ --job-accent:#4AA8F0; }
+[data-job="sage"]  { --job-accent:#E8B923; }
+[data-job="shape"] { --job-accent:#A96BFF; }
+[data-job="bard"]  { --job-accent:#10C9A0; }
